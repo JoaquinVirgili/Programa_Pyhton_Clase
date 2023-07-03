@@ -14,12 +14,16 @@ class ContactController:
     
     def get_contacts_birthday(self, contact):
         contact_repsitory = ContactRepository()
-        contacts = contact_repsitory.get_contacts_birthday(contact)
+        contacts, salir = contact_repsitory.get_contacts_birthday(contact)
         contactsBforView = []
-        for contact in contacts:
-            contactBForView = ContactForView(contact)
-            contactsBforView.append(contactBForView)
-        return contactsBforView           
+        if salir == False:
+            salirFinal = False
+        else:
+            for contact in contacts:
+                contactBForView = ContactForView(contact)
+                contactsBforView.append(contactBForView)
+            salirFinal = True
+        return contactsBforView, salirFinal         
     
     def get_contact(self, contact):
         contact_repository = ContactRepository()
