@@ -5,7 +5,7 @@ class Context:
         self.mydb = mysql.connector.connect(
         host="localhost",
         user="root",
-        password="Takleger.10",
+        password="4260002",
         database="contacts"
         )
         self.mycursor = self.mydb.cursor()
