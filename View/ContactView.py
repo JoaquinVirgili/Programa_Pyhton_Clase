@@ -51,9 +51,12 @@ class ContactView:
         system("cls")
         print(" Contactos que cumplen años este mes ".center(50, "#"))
         contactC = ContactController()
-        contacts = contactC.get_contacts_birthday(self.user_logged.username)
-        for contact in contacts:
-            print(contact)
+        contacts, salir = contactC.get_contacts_birthday(self.user_logged.username)
+        if salir == False:
+            print("No hay contactos que cumplan años este mes.")
+        else:
+            for contact in contacts:
+                print(contact)
         print("#"*50)
         input(" Presione enter para continuar ".center(50, "!"))
 
@@ -79,7 +82,7 @@ class ContactView:
                 birthday_order, close = OrderDate.order_date(birthday)
             
             
-        contact.birthday = birthday_order
+            contact.birthday = birthday_order
         contactFull.add_contact(contact)
         
         input(" Presione enter para continuar ".center(50, "!"))
@@ -95,12 +98,22 @@ class ContactView:
         print("-"*50)
         surname = input("Ingrese el apellido del contacto: ")
         print("-"*50)
-        fechaNacimiento = input("Ingrese fecha de nacimiento: ").replace("/", "-")
-        print("-"*50)
         email = input("Ingrese el email del contacto: ")
         print("-"*50)
         contactC = ContactController()
-        contactC.update_contact(ContactForUpdate(id, name, surname, fechaNacimiento, email, self.user_logged.username))
+        contact = ContactForUpdate(id, name, surname, email, self.user_logged.username)
+        yes = input("¿Quiere agregar la fecha de cumpleaños del contacto? Ingrese SI o NO: ")
+        if yes.upper() == "SI":
+            close = False
+            
+            while close == False:
+        
+                birthday = input("Ingrese la fecha de cumpleaños, por favor que sea en el formato DD-MM-YYYY: ").replace("/" and"." and",","-")
+                birthday_order, close = OrderDate.order_date(birthday)
+            
+            
+            contact.birthday = birthday_order
+        contactC.update_contact(contact)
         input(" Presione enter para continuar ".center(50, "!"))
 
     def deleteContact(self):
