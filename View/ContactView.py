@@ -40,8 +40,9 @@ class ContactView:
     def listContacts(self):
         system("cls")
         print(" Lista de contactos ".center(50, "#"))
-        contactC = ContactController()
-        contacts = contactC.get_contacts_by_user(self.user_logged.username)
+        contactC = ContactController() #Se crea una instancia de la clase ContactController
+        contacts = contactC.get_contacts_by_user(self.user_logged.username) #Y se llama a la funcion get_contacts_by_user pasandole como parametro el user logged
+        #Recorremos la lista de los contactos e imprimimos uno por uno en consola. 
         for contact in contacts:
             print(contact)
         print("#"*50)
@@ -50,12 +51,12 @@ class ContactView:
     def listContacts_Birthday(self):
         system("cls")
         print(" Contactos que cumplen años este mes ".center(50, "#"))
-        contactC = ContactController()
-        contacts, salir = contactC.get_contacts_birthday(self.user_logged.username)
-        if salir == False:
+        contactC = ContactController() #Se crea una instancia de la clase ContactController
+        contacts, salir = contactC.get_contacts_birthday(self.user_logged.username) #Se llama a la funcion get_contacts_birthday del Controller
+        if salir == False: #Tambien se obtiene el valor de la variable salir, si nos devuelve false nos imprime que no hay contactos que cumplan este mes
             print("No hay contactos que cumplan años este mes.")
         else:
-            for contact in contacts:
+            for contact in contacts: #Recorre la lista de contactos que solo cumplen año el mes de la fecha de la pc.
                 print(contact)
         print("#"*50)
         input(" Presione enter para continuar ".center(50, "!"))
@@ -70,19 +71,22 @@ class ContactView:
         print("-"*50)
         email = input("Ingrese el email del contacto: ")
         print("-"*50)
-        contactFull = ContactController()
-        contact = ContactForUpdate(0, name, surname, email, self.user_logged.username)
-        yes = input("¡Quiere ingresar la fecha de cumpleaños del contacto? Ingrese SI o NO: ")
+        contactFull = ContactController()  #Se crea una instancia de la clase ContactController
+        contact = ContactForUpdate(0, name, surname, email, self.user_logged.username) #Se le pasan los valores para crear el objeto contact
+        #Nos permite ingresar, si lo deseamos, la fecha de cumpleaños de nuesto contacto.
+        yes = input("¿Quiere ingresar la fecha de cumpleaños del contacto? Ingrese SI o NO: ")
         if yes.upper() == "SI":
             close = False
-            
+            #En caso de que sea si, hasta que no ingresemos un formato adecuado no nos va a dejar salir.
             while close == False:
-        
-                birthday = input("Ingrese la fecha de cumpleañs, por favor que sea en el formato DD-MM-YYYY: ").replace("/" and"." and",","-")
+                #Se puede ingresar de la forma que queramos, ya sea con coma, guion bajo, guion medio, barra, punto.
+                birthday = input("Ingrese la fecha de cumpleañs, por favor que sea en el formato DD-MM-YYYY: ").replace("/" and"." and","and "_" and ":" ,"-")
+                # Se le pasa a la funcion order_date, de la clase OrderDate, la fecha para que nos la formatee de la manera que se debe ingresar a la base de datos.
                 birthday_order, close = OrderDate.order_date(birthday)
+                #Y en caso que sea un valor correcto, ejempo no una letra, la bandera close se convierte en true y cierra el bucle.
             
-            
-            contact.birthday = birthday_order
+            contact.birthday = birthday_order #Se le pasa al contacnt el valor de la fecha de cumpleaños
+        #Si no se ejecuta la fecha el valor por default es None
         contactFull.add_contact(contact)
         
         input(" Presione enter para continuar ".center(50, "!"))
@@ -110,9 +114,18 @@ class ContactView:
         
                 birthday = input("Ingrese la fecha de cumpleaños, por favor que sea en el formato DD-MM-YYYY: ").replace("/" and"." and",","-")
                 birthday_order, close = OrderDate.order_date(birthday)
-            
-            
+
             contact.birthday = birthday_order
+        else:
+            #En caso de que el user no quiera modificar o agregar la fecha de cumpleaños del contacto se ejecuta esto
+            contacC_birthday = contactC.get_contact(contact) #Se le pasa el mismo objeto a la funcion get_contact del Controller
+            #Esta funcion nos trae UN SOLO contacto
+            contacC_birthday_order = contacC_birthday.birthday #Ahora traemos solo el campo birthday del objeto. 
+            if not contacC_birthday_order == None: #Comparamos si no es un campo vacio/None
+                contacC_birthday_finally, close =  OrderDate.order_date(contacC_birthday_order) #Aplicamos la funcion para ordenar la fecha
+                contact.birthday = contacC_birthday_finally #Se la asignamos al objeto para que mantenga el clumpleaños del contacto
+           
+            
         contactC.update_contact(contact)
         input(" Presione enter para continuar ".center(50, "!"))
 
@@ -123,5 +136,5 @@ class ContactView:
         id = input("Ingrese el id del contacto a eliminar: ")
         print("-"*50)
         contactC = ContactController()
-        contactC.delete_contact(ContactForDelete(id, self.user_logged.username))
+        contactC.delete_contact(ContactForDelete(id, self.user_logged.username)) #Se le pasa a la funcion delete_contact el user logged.
         input(" Presione enter para continuar ".center(50, "!"))
