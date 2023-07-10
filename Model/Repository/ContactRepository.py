@@ -76,7 +76,7 @@ class ContactRepository:
     
     def add_contact(self, contact):
         with Context() as context1:
-            query = "INSERT INTO contact (name, surname, email, username, state, birthday) VALUES (%s, %s, %s, %s, %s, STR_TO_DATE(%s, '%d-%m-%Y'))"
+            query = "INSERT INTO contact (name, surname, email, username, state, birthday) VALUES (%s, %s, %s, %s, %s, %s)"
             values = (contact.name, contact.surname, contact.email, contact.username, contact.state, contact.birthday)
             context1.mycursor.execute(query, values)
             context1.mydb.commit()
