@@ -1,6 +1,6 @@
 from Model.DTO.ContactForView import ContactForView
 from Model.Repository.ContactRepository import ContactRepository
-
+import datetime
 
 class ContactController:
     def get_contacts_by_user(self, username):
@@ -44,3 +44,13 @@ class ContactController:
         contact_repository = ContactRepository()
         contact_repository.delete_contact(contact)
     
+    def order_date(date: str):
+            
+        if date == "":
+            return None, True 
+        else:   
+            try:
+                birthday = datetime.datetime.strptime(date, '%Y-%m-%d')
+                return birthday, True
+            except ValueError:
+                return print("Formato de fecha incorrecto: {}".format(date), "Ingrese una fecha en formato año-mes-dia, o deje vacio para no poner nada🤙"), False
