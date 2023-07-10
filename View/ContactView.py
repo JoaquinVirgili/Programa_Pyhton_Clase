@@ -3,7 +3,7 @@ from Controllers.ContactController import ContactController
 from Model.DTO.ContactForDelete import ContactForDelete
 from Model.DTO.ContactForUpdate import ContactForUpdate
 from Model.DTO.UserForView import UserForView
-from Controllers.OrderDate import OrderDate
+
 
 class ContactView:    
     def __init__(self, user):
@@ -80,9 +80,9 @@ class ContactView:
             #En caso de que sea si, hasta que no ingresemos un formato adecuado no nos va a dejar salir.
             while close == False:
                 #Se puede ingresar de la forma que queramos, ya sea con coma, guion bajo, guion medio, barra, punto.
-                birthday = input("Ingrese la fecha de cumpleañs, por favor que sea en el formato DD-MM-YYYY: ").replace("/" and"." and","and "_" and ":" ,"-")
+                birthday = input("Ingrese la fecha de cumpleañs, por favor que sea en el formato AÑO-MES-DIA: ").replace("/" and"." and","and "_" and ":" ,"-")
                 # Se le pasa a la funcion order_date, de la clase OrderDate, la fecha para que nos la formatee de la manera que se debe ingresar a la base de datos.
-                birthday_order, close = OrderDate.order_date(birthday)
+                birthday_order, close = ContactController.order_date(birthday)
                 #Y en caso que sea un valor correcto, ejempo no una letra, la bandera close se convierte en true y cierra el bucle.
             
             contact.birthday = birthday_order #Se le pasa al contacnt el valor de la fecha de cumpleaños
@@ -113,7 +113,7 @@ class ContactView:
             while close == False:
         
                 birthday = input("Ingrese la fecha de cumpleaños, por favor que sea en el formato DD-MM-YYYY: ").replace("/" and"." and",","-")
-                birthday_order, close = OrderDate.order_date(birthday)
+                birthday_order, close = ContactController.order_date(birthday)
 
             contact.birthday = birthday_order
         else:
@@ -122,7 +122,7 @@ class ContactView:
             #Esta funcion nos trae UN SOLO contacto
             contacC_birthday_order = contacC_birthday.birthday #Ahora traemos solo el campo birthday del objeto. 
             if not contacC_birthday_order == None: #Comparamos si no es un campo vacio/None
-                contacC_birthday_finally, close =  OrderDate.order_date(contacC_birthday_order) #Aplicamos la funcion para ordenar la fecha
+                contacC_birthday_finally, close =  ContactController.order_date(contacC_birthday_order) #Aplicamos la funcion para ordenar la fecha
                 contact.birthday = contacC_birthday_finally #Se la asignamos al objeto para que mantenga el clumpleaños del contacto
            
             
