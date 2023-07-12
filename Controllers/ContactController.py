@@ -48,7 +48,8 @@ class ContactController:
             
         if date == "":
             return None, True 
-        else:   
+        else:  
+            date = date.replace("/" and"." and","and "_" and ":" ,"-")
             try:
                 birthday = datetime.datetime.strptime(date, '%Y-%m-%d')
                 return birthday, True
