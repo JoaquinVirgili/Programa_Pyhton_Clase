@@ -80,7 +80,7 @@ class ContactView:
             #En caso de que sea si, hasta que no ingresemos un formato adecuado no nos va a dejar salir.
             while close == False:
                 #Se puede ingresar de la forma que queramos, ya sea con coma, guion bajo, guion medio, barra, punto.
-                birthday = input("Ingrese la fecha de cumpleañs, por favor que sea en el formato AÑO-MES-DIA: ").replace("/" and"." and","and "_" and ":" ,"-")
+                birthday = input("Ingrese la fecha de cumpleañs, por favor que sea en el formato AÑO-MES-DIA: ")
                 # Se le pasa a la funcion order_date, de la clase OrderDate, la fecha para que nos la formatee de la manera que se debe ingresar a la base de datos.
                 birthday_order, close = ContactController.order_date(birthday)
                 #Y en caso que sea un valor correcto, ejempo no una letra, la bandera close se convierte en true y cierra el bucle.
@@ -112,7 +112,7 @@ class ContactView:
             
             while close == False:
         
-                birthday = input("Ingrese la fecha de cumpleaños, por favor que sea en el formato DD-MM-YYYY: ").replace("/" and"." and",","-")
+                birthday = input("Ingrese la fecha de cumpleaños, por favor que sea en el formato DD-MM-YYYY: ")
                 birthday_order, close = ContactController.order_date(birthday)
 
             contact.birthday = birthday_order
